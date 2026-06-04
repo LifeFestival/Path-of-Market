@@ -3,8 +3,8 @@ package com.example.pathofmarket.repository
 import com.example.pathofmarket.network.data.ExchangeItemsResponse
 import com.example.pathofmarket.network.services.EconomyService
 import com.example.pathofmarket.viemodel.ExchangeItem
-import com.example.pathofmarket.viemodel.RatesInfo
 import kotlin.math.floor
+import kotlin.math.roundToInt
 
 class ExchangeRepository {
 
@@ -32,6 +32,12 @@ class ExchangeRepository {
 
             val line = response.lines[index]
 
+            val sparkline = mutableListOf<Double>()
+
+            line.sparkline.data.forEach { item ->
+                if (item != null) sparkline.add(item)
+            }
+
             ExchangeItem(
                 item.id,
                 item.name,
@@ -41,7 +47,9 @@ class ExchangeRepository {
                 line.maxVolumeCurrency,
                 line.maxVolumeRate,
                 calculateDivinePrice(line.primaryValue),
-                calculateExaltedPrice(line.primaryValue * _exaltedRate)
+                calculateExaltedPrice(line.primaryValue * _exaltedRate),
+                line.sparkline.totalChange.roundToInt(),
+                sparkline.toList()
             )
         }
 

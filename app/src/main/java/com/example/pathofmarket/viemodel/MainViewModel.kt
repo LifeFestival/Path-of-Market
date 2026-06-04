@@ -35,12 +35,6 @@ data class StartScreenUiState(
     val error: Exception?
 )
 
-data class RatesInfo(
-    val divineRate: Double,
-    val divineImage: String?,
-    val exaltedImage: String?
-)
-
 data class ExchangeItem(
     val id: String,
     val name: String,
@@ -51,4 +45,6 @@ data class ExchangeItem(
     val maxVolumeRate: Double,
     val divinePrice: Double?,
     val exaltedPrice: Double?,
+    val totalChange: Int,
+    val sparkline: List<Double>
 )
