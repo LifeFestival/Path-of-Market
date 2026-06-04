@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(StartScreenUiState(emptyList(), null))
     val uiState: StateFlow<StartScreenUiState> = _uiState.asStateFlow()
-
     val repo = ExchangeRepository()
 
     init {
@@ -36,6 +35,12 @@ data class StartScreenUiState(
     val error: Exception?
 )
 
+data class RatesInfo(
+    val divineRate: Double,
+    val divineImage: String?,
+    val exaltedImage: String?
+)
+
 data class ExchangeItem(
     val id: String,
     val name: String,
@@ -43,5 +48,7 @@ data class ExchangeItem(
     val primaryValue: Double,
     val volumePrimaryValue: Double,
     val maxVolumeCurrency: String,
-    val maxVolumeRate: Double
+    val maxVolumeRate: Double,
+    val divinePrice: Double?,
+    val exaltedPrice: Double?,
 )

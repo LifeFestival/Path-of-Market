@@ -2,7 +2,9 @@ package com.example.pathofmarket.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
@@ -16,6 +18,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.pathofmarket.viemodel.MainViewModel
 import com.example.pathofmarket.viemodel.StartScreenUiState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.unit.dp
+import com.example.pathofmarket.widgets.ExchangeItemWidget
 
 @Composable
 fun StartScreen(
@@ -36,11 +40,11 @@ fun StartScreen(
 @Composable
 fun StartScreenContent(uiState: StartScreenUiState) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().padding(top = 32.dp)
     ) {
         LazyColumn {
             items(uiState.items) { item ->
-                Text(item.name, color = Color.White)
+                ExchangeItemWidget(item)
             }
         }
     }
