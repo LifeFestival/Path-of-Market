@@ -21,15 +21,16 @@ data class CurrencyItemDto(
     @SerializedName("image") val image: String
 )
 
-data class RatesDto(
-    @SerializedName("divine") val divine: String,
-    @SerializedName("chaos") val chaos: String,
-)
-
 data class LineDto(
     @SerializedName("id") val id: String,
     @SerializedName("primaryValue") val primaryValue: Double,
     @SerializedName("volumePrimaryValue") val volumePrimaryValue: Double,
     @SerializedName("maxVolumeCurrency") val maxVolumeCurrency: String,
-    @SerializedName("maxVolumeRate") val maxVolumeRate: Double
+    @SerializedName("maxVolumeRate") val maxVolumeRate: Double,
+    @SerializedName("sparkline") val sparkline: SparklineDto
+)
+
+data class SparklineDto(
+    @SerializedName("totalChange") val totalChange: Double,
+    @SerializedName("data") val data: List<Double?>
 )

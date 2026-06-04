@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
@@ -22,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +27,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import com.example.pathofmarket.R
-import com.example.pathofmarket.viemodel.ExchangeItem
+import com.example.pathofmarket.screens.state.ExchangeItem
+import ir.ehsannarmani.compose_charts.LineChart
+import ir.ehsannarmani.compose_charts.models.DividerProperties
+import ir.ehsannarmani.compose_charts.models.GridProperties
+import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
+import ir.ehsannarmani.compose_charts.models.Line
 
 
 @Composable
@@ -71,11 +74,18 @@ fun ExchangeItemWidget(item: ExchangeItem) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column {
-                        ValueWidget(R.drawable.divine_icon, "Divine price: ${item.divinePrice ?: "-"}")
-                        ValueWidget(R.drawable.exalted_icon, "Exalted price: ${item.exaltedPrice ?: "-"}")
+                        ValueWidget(
+                            R.drawable.divine_icon,
+                            "Divine price: ${item.divinePrice ?: "-"}"
+                        )
+                        ValueWidget(
+                            R.drawable.exalted_icon,
+                            "Exalted price: ${item.exaltedPrice ?: "-"}"
+                        )
                     }
                 }
-                ValueWidget(R.drawable.divine_icon, "Volume rate: ${item.volumePrimaryValue}")
+                ValueWidget(R.drawable.divine_icon, "Volume/Hour: ${item.volumePrimaryValue}")
+                SparklineWidget(item.totalChange, item.sparkline)
             }
         }
     }
@@ -111,5 +121,34 @@ private fun ValueWidget(
     Row {
         Icon(painter = painterResource(iconRes), null, tint = Color.Unspecified)
         Text(text, modifier = Modifier.padding(start = 8.dp))
+    }
+}
+
+@Composable
+private fun SparklineWidget(totalChange: Int, sparkline: List<Double>) {
+    Box {
+        LineChart(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            data = listOf(
+                Line(
+                    values = sparkline,
+                    color = SolidColor(Color.Black)
+                )
+            ),
+            dividerProperties = DividerProperties(enabled = true),
+            gridProperties = GridProperties(enabled = false),
+            indicatorProperties = HorizontalIndicatorProperties(enabled = false)
+        )
+        Text(
+            "$totalChange%",
+            color = if (totalChange > 0) Color(0xFF008400) else Color.Red,
+            modifier = Modifier
+                .align(
+                    Alignment.BottomEnd
+                )
+                .padding(end = 8.dp, bottom = 8.dp)
+        )
     }
 }
