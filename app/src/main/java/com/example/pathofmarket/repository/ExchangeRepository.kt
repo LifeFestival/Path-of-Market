@@ -2,7 +2,7 @@ package com.example.pathofmarket.repository
 
 import com.example.pathofmarket.network.data.ExchangeItemsResponse
 import com.example.pathofmarket.network.services.EconomyService
-import com.example.pathofmarket.viemodel.ExchangeItem
+import com.example.pathofmarket.screens.state.ExchangeItem
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
