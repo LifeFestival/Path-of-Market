@@ -18,28 +18,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.pathofmarket.screens.state.ErrorState
 import com.example.pathofmarket.screens.state.ExchangeItem
-import com.example.pathofmarket.screens.state.LoadingState
 import com.example.pathofmarket.screens.state.RatesDataState
-import com.example.pathofmarket.viemodel.MainViewModel
+import com.example.pathofmarket.screens.state.RatesErrorState
+import com.example.pathofmarket.screens.state.RatesLoadingState
+import com.example.pathofmarket.viemodel.RatesViewModel
 import com.example.pathofmarket.widgets.ExchangeItemWidget
 
 @Composable
 fun RatesScreen(
-    viewModel: MainViewModel = MainViewModel()
+    viewModel: RatesViewModel
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.ratesUiState.collectAsStateWithLifecycle()
 
     when (uiState) {
-        is LoadingState -> RatesLoadingState()
-        is RatesDataState -> RatesScreenContent((uiState as RatesDataState).data)
-        is ErrorState -> RatesScreenErrorState((uiState as ErrorState).exception)
+        is RatesLoadingState -> RatesLoadingUiState()
+        is RatesDataState -> RatesUiContent((uiState as RatesDataState).data)
+        is RatesErrorState -> RatesErrorUiState((uiState as RatesErrorState).exception)
     }
 }
 
 @Composable
-fun RatesScreenContent(data: List<ExchangeItem>) {
+fun RatesUiContent(data: List<ExchangeItem>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +54,7 @@ fun RatesScreenContent(data: List<ExchangeItem>) {
 }
 
 @Composable
-fun RatesScreenErrorState(e: Exception) {
+private fun RatesErrorUiState(e: Exception) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.Center)) {
             Icon(Icons.Filled.Warning, "", tint = Color.White)
@@ -64,7 +64,7 @@ fun RatesScreenErrorState(e: Exception) {
 }
 
 @Composable
-fun RatesLoadingState() {
+private fun RatesLoadingUiState() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
     }

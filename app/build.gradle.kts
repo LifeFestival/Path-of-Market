@@ -83,4 +83,7 @@ dependencies {
 
     //Charts
     implementation (libs.compose.charts)
+
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
 }
