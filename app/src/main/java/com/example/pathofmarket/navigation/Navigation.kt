@@ -22,7 +22,7 @@ fun Navigation() {
             StartScreen(startViewModel, navController)
         }
         composable(route = Routes.CategoriesScreen.name) {
-            CategoriesScreen()
+            CategoriesScreen(navController)
         }
         composable(route = Routes.RatesScreen.name) {
             RatesScreen(ratesViewModel)

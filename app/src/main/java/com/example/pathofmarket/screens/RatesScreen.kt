@@ -1,9 +1,12 @@
 package com.example.pathofmarket.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -15,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +49,13 @@ fun RatesUiContent(data: List<ExchangeItem>) {
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 32.dp)
+            .background(
+                brush = Brush.linearGradient(
+                    colors = colorPalette,
+                    start = Offset(0f, 0f),
+                    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                )
+            )
     ) {
         LazyColumn {
             items(data) { item ->
@@ -55,10 +67,29 @@ fun RatesUiContent(data: List<ExchangeItem>) {
 
 @Composable
 private fun RatesErrorUiState(e: Exception) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
-            Icon(Icons.Filled.Warning, "", tint = Color.White)
-            Text(e.message ?: "-", color = Color.White)
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 16.dp)) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Box(modifier = Modifier.size(60.dp)) {
+                Icon(
+                    Icons.Filled.Warning,
+                    "",
+                    tint = Color.White,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Text(
+                e.message ?: "-",
+                color = Color.White,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 10.dp)
+            )
         }
     }
 }

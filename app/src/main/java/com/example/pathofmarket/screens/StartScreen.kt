@@ -95,7 +95,7 @@ fun StartScreenContent(e: Exception?, navController: NavController?) {
         if (e != null) Text(e.message ?: "Unknown Error, Try Again", color = Color.Black)
         ElevatedButton(
             onClick = {
-                navController?.navigate(Routes.RatesScreen.name)
+                navController?.navigate(Routes.CategoriesScreen.name)
             },
             modifier = Modifier
                 .fillMaxWidth()

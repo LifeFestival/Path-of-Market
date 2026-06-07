@@ -2,7 +2,9 @@ package com.example.pathofmarket.viemodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pathofmarket.R
 import com.example.pathofmarket.repository.ExchangeRepository
+import com.example.pathofmarket.screens.state.CategoryItem
 import com.example.pathofmarket.screens.state.RatesDataState
 import com.example.pathofmarket.screens.state.RatesErrorState
 import com.example.pathofmarket.screens.state.RatesLoadingState
@@ -16,6 +18,12 @@ class RatesViewModel : ViewModel() {
     private val _ratesUiState = MutableStateFlow<RatesUiState>(RatesLoadingState())
     val ratesUiState: StateFlow<RatesUiState> = _ratesUiState.asStateFlow()
     val repo = ExchangeRepository()
+
+    private val cats = listOf(
+        CategoryItem("Currency", R.drawable.divine_icon),
+        CategoryItem("Fragments", R.drawable.exalted_icon),
+        CategoryItem("Other", R.drawable.divine_icon)
+    )
 
     init {
         fetchCurrencyItems()
