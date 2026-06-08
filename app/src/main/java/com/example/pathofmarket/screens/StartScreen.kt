@@ -13,14 +13,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +31,7 @@ import androidx.navigation.NavController
 import com.example.pathofmarket.navigation.Routes
 import com.example.pathofmarket.screens.state.StartErrorState
 import com.example.pathofmarket.screens.state.StartLoadingState
+import com.example.pathofmarket.theme.PathOfMarketColors
 import com.example.pathofmarket.viemodel.StartViewModel
 
 @Composable
@@ -36,46 +39,58 @@ fun StartScreen(viewModel: StartViewModel, navController: NavController) {
 
     val uiState by viewModel.startUiState.collectAsStateWithLifecycle()
 
-    //TODO create colour scheme
-    val colorPalette = listOf(
-        Color(0xFFFFB199), // MainLight
-        Color(0xFFE67C5C), // Middle
-        Color(0xFF801D00)  //MainDark
-    )
-
     Box(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
-            .background(
-                brush = Brush.linearGradient(
-                    colors = colorPalette,
-                    start = Offset(0f, 0f),
-                    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
-                )
-            )
     ) {
-        Text(
-            "Path of\nMarket",
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            PathOfMarketColors.PrimaryVariant.copy(alpha = 0.15f),
+                            Color.Transparent
+                        ),
+                        radius = 800f
+                    )
+                )
+        )
+
+        Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 16.dp, top = 48.dp),
-            color = Color.Black,
-            fontSize = 56.sp,
-            fontWeight = FontWeight.Bold,
-            lineHeight = 56.sp
-        )
+                .padding(start = 16.dp, top = 48.dp)
+        ) {
+            Text(
+                text = "Path of",
+                color = PathOfMarketColors.OnBackground,
+                fontSize = 56.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Serif,
+                lineHeight = 56.sp
+            )
+            Text(
+                text = "Market",
+                color = PathOfMarketColors.Primary,
+                fontSize = 56.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Serif,
+                lineHeight = 56.sp
+            )
+        }
+
         when (uiState) {
             is StartLoadingState -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
-                    color = Color.Black
+                    color = PathOfMarketColors.Primary
                 )
             }
-
             is StartErrorState -> {
                 StartScreenContent((uiState as StartErrorState).exception, null)
             }
-
             else -> {
                 StartScreenContent(null, navController)
             }
@@ -92,7 +107,21 @@ fun StartScreenContent(e: Exception?, navController: NavController?) {
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (e != null) Text(e.message ?: "Unknown Error, Try Again", color = Color.Black)
+        if (e != null) {
+            Text(
+                text = e.message ?: "Unknown error, try again",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+        }
+
+        HorizontalDivider(
+            color = PathOfMarketColors.Primary.copy(alpha = 0.4f),
+            thickness = 1.dp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
         ElevatedButton(
             onClick = {
                 navController?.navigate(Routes.CategoriesScreen.route)
@@ -100,14 +129,29 @@ fun StartScreenContent(e: Exception?, navController: NavController?) {
             modifier = Modifier
                 .fillMaxWidth()
                 .requiredHeight(60.dp),
-            border = BorderStroke(2.dp, Color.Black),
-            shape = RoundedCornerShape(10.dp),
+            border = BorderStroke(
+                width = 2.dp,
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        PathOfMarketColors.Primary,
+                        PathOfMarketColors.PrimaryVariant
+                    )
+                )
+            ),
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = Color(0xFF801D00), // Background color
-                contentColor = Color.White,          // Text and icon color
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = PathOfMarketColors.Primary
             )
         ) {
-            Text(if (e != null) "Retry" else "Start", color = Color(0xFFFFD8CC), fontSize = 16.sp)
+            Text(
+                text = if (e != null) "Retry" else "Enter Market",
+                color = PathOfMarketColors.Primary,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Serif,
+                letterSpacing = 2.sp
+            )
         }
     }
 }
