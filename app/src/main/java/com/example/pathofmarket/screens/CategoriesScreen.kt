@@ -13,18 +13,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.pathofmarket.R
+import com.example.pathofmarket.model.CategoriesDataSet
+import com.example.pathofmarket.model.CategoryItem
 import com.example.pathofmarket.navigation.Routes
-import com.example.pathofmarket.screens.state.CategoryItem
 import com.example.pathofmarket.widgets.CategoryItemWidget
 
-
-private val cats = listOf(
-    CategoryItem("Currency", R.drawable.divine_icon),
-    CategoryItem("Fragments", R.drawable.exalted_icon),
-    CategoryItem("Other", R.drawable.divine_icon)
-
-)
 
 //TODO create colour scheme
 val colorPalette = listOf(
@@ -35,6 +28,9 @@ val colorPalette = listOf(
 
 @Composable
 fun CategoriesScreen(navController: NavController) {
+
+    val cats: List<CategoryItem> = CategoriesDataSet.categories
+
     Box(
         modifier = Modifier.background(
             brush = Brush.linearGradient(
@@ -53,7 +49,7 @@ fun CategoriesScreen(navController: NavController) {
                 CategoryItemWidget(
                     item,
                     onClick = {
-                        navController.navigate(Routes.RatesScreen.name)
+                        navController.navigate(Routes.RatesScreen.createRoute(item.name))
                     })
             }
         }

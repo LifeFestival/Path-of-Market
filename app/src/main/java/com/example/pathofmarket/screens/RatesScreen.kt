@@ -15,6 +15,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +33,14 @@ import com.example.pathofmarket.widgets.ExchangeItemWidget
 
 @Composable
 fun RatesScreen(
-    viewModel: RatesViewModel
+    viewModel: RatesViewModel,
+    catName: String
 ) {
     val uiState by viewModel.ratesUiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(catName) {
+        viewModel.fetchCurrencyItems(catName    )
+    }
 
     when (uiState) {
         is RatesLoadingState -> RatesLoadingUiState()

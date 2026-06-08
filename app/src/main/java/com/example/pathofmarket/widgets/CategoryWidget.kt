@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pathofmarket.R
-import com.example.pathofmarket.screens.state.CategoryItem
+import com.example.pathofmarket.model.CategoryItem
 
 @Composable
 fun CategoryItemWidget(item: CategoryItem, onClick: () -> Unit) {
@@ -34,19 +34,22 @@ fun CategoryItemWidget(item: CategoryItem, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxSize().padding(start = 16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
             Box(
                 modifier = Modifier.size(42.dp)
             ) {
-                Icon(painter =
-                    painterResource(item.iconRes),
+                Icon(
+                    painter =
+                        painterResource(item.iconRes),
                     null,
                     tint = Color.Unspecified,
                     modifier = Modifier.fillMaxSize(),
-                    )
+                )
             }
             Text(item.name, fontSize = 22.sp, modifier = Modifier.padding(start = 16.dp))
         }
