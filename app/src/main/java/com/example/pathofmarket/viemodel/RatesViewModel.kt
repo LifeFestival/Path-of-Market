@@ -18,6 +18,8 @@ class RatesViewModel : ViewModel() {
     val repo = ExchangeRepository()
 
     fun fetchCurrencyItems(catName: String) {
+        _ratesUiState.value = RatesLoadingState()
+
         viewModelScope.launch {
             try {
                 val response = repo.getExchangeItems("Runes of Aldur", catName)

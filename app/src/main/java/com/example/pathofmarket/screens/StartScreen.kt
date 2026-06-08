@@ -79,6 +79,14 @@ fun StartScreen(viewModel: StartViewModel, navController: NavController) {
                 fontFamily = FontFamily.Serif,
                 lineHeight = 56.sp
             )
+            Text(
+                text = "Still sane, exile?",
+                color = PathOfMarketColors.Primary.copy(alpha = 0.4f),
+                fontSize = 25.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily.Serif,
+                lineHeight = 25.sp
+            )
         }
 
         when (uiState) {
@@ -88,9 +96,11 @@ fun StartScreen(viewModel: StartViewModel, navController: NavController) {
                     color = PathOfMarketColors.Primary
                 )
             }
+
             is StartErrorState -> {
                 StartScreenContent((uiState as StartErrorState).exception, null)
             }
+
             else -> {
                 StartScreenContent(null, navController)
             }
