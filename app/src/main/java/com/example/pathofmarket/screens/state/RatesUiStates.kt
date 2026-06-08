@@ -2,8 +2,8 @@ package com.example.pathofmarket.screens.state
 
 sealed class RatesUiState
 
-class LoadingState() : RatesUiState()
-class ErrorState(val exception: Exception) : RatesUiState()
+class RatesLoadingState : RatesUiState()
+class RatesErrorState(val exception: Exception) : RatesUiState()
 class RatesDataState(val data: List<ExchangeItem>) : RatesUiState()
 
 data class ExchangeItem(

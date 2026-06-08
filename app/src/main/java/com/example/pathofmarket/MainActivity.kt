@@ -4,14 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
+import com.example.pathofmarket.navigation.Navigation
 import com.example.pathofmarket.screens.RatesScreen
+import com.example.pathofmarket.theme.PathOfMarketTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                RatesScreen()
+            PathOfMarketTheme {
+                Navigation()
             }
         }
     }

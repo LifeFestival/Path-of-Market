@@ -3,32 +3,30 @@ package com.example.pathofmarket.viemodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pathofmarket.repository.ExchangeRepository
-import com.example.pathofmarket.screens.state.ErrorState
-import com.example.pathofmarket.screens.state.LoadingState
 import com.example.pathofmarket.screens.state.RatesDataState
+import com.example.pathofmarket.screens.state.RatesErrorState
+import com.example.pathofmarket.screens.state.RatesLoadingState
 import com.example.pathofmarket.screens.state.RatesUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow<RatesUiState>(LoadingState())
-    val uiState: StateFlow<RatesUiState> = _uiState.asStateFlow()
+class RatesViewModel : ViewModel() {
+    private val _ratesUiState = MutableStateFlow<RatesUiState>(RatesLoadingState())
+    val ratesUiState: StateFlow<RatesUiState> = _ratesUiState.asStateFlow()
     val repo = ExchangeRepository()
 
-    init {
-        fetchCurrencyItems()
-    }
+    fun fetchCurrencyItems(catName: String) {
+        _ratesUiState.value = RatesLoadingState()
 
-    private fun fetchCurrencyItems() {
         viewModelScope.launch {
             try {
-                val response = repo.getExchangeItems("Runes of Aldur", "Currency")
+                val response = repo.getExchangeItems("Runes of Aldur", catName)
 
-                _uiState.value = RatesDataState(response)
+                _ratesUiState.value = RatesDataState(response)
             } catch (e: Exception) {
-                _uiState.value = ErrorState(e)
+                _ratesUiState.value = RatesErrorState(e)
             }
         }
     }
